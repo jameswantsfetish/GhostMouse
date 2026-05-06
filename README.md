@@ -1,14 +1,29 @@
 # GhostMouse
 
-GhostMouse is a Java 21 desktop app that turns hand landmarks into mouse actions. It uses a MediaPipe-powered Python sidecar for webcam hand tracking, then keeps the app shell, gesture logic, smoothing, debouncing, tray integration, and mouse control in Java.
+[![CI](https://github.com/jameswantsfetish/GhostMouse/actions/workflows/ci.yml/badge.svg)](https://github.com/jameswantsfetish/GhostMouse/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Java 21](https://img.shields.io/badge/Java-21-blue.svg)](pom.xml)
+[![MediaPipe](https://img.shields.io/badge/MediaPipe-Hand%20Tracking-orange.svg)](https://github.com/google-ai-edge/mediapipe)
+
+GhostMouse turns your hand into a desktop mouse. It reads webcam hand landmarks through a MediaPipe-powered Python sidecar, then uses a Java 21 desktop app for gesture recognition, smoothing, tray integration, and optional real OS mouse control.
 
 Created by **James Mamhiyo**.
 
+## Why It Exists
+
+GhostMouse is built as a practical, inspectable desktop gesture bridge. The project keeps the computer-vision boundary simple, keeps the mouse-control behavior testable in Java, and includes a safe demo mode so contributors can work without accidentally moving or clicking the real cursor.
+
+## At A Glance
+
+```text
+Webcam -> Python MediaPipe sidecar -> TCP landmarks -> Java gesture engine -> OS mouse
+```
+
+Start safely with demo landmarks, then move to the real webcam sidecar when you are ready.
+
 ## Features
 
-- Java 21 desktop app entry point: `com.ghostmouse.app.GhostMouseApp`
-- Swing control/debug window with live landmark preview
-- System tray menu when `java.awt.SystemTray` is available
+- Java 21 desktop app with a Swing control/debug window
 - Demo landmark source for safe testing without a camera
 - TCP socket landmark bridge for a local MediaPipe process
 - Palm-center cursor movement with adaptive smoothing
@@ -18,20 +33,28 @@ Created by **James Mamhiyo**.
 - Index/middle scroll mode
 - Release-based click state machine to avoid repeated click bursts
 - Shutdown guard that releases held mouse buttons
+- GitHub Actions CI, issue templates, contribution notes, and MIT license
 
 ## Requirements
 
-- macOS, Windows, or Linux for demo mode
-- macOS recommended for the included launcher scripts
 - Java 21 or newer
 - Maven through the included `./mvnw` wrapper
 - Python 3.10+ for the MediaPipe sidecar
 - Webcam access for real hand tracking
-- Accessibility permission for Java if real OS mouse control is enabled on macOS
+- macOS, Windows, or Linux for demo mode
+- macOS recommended for the included double-click launcher scripts
+- Accessibility permission for Java when real OS mouse control is enabled on macOS
 
 ## Quick Start
 
-Build and test the Java app:
+Clone and enter the repo:
+
+```sh
+git clone https://github.com/jameswantsfetish/GhostMouse.git
+cd GhostMouse
+```
+
+Build and test:
 
 ```sh
 ./mvnw test
@@ -44,10 +67,19 @@ Run in safe demo mode. This opens the app but does not move the real cursor:
 java -jar target/ghostmouse-0.1.0-SNAPSHOT.jar --source=demo
 ```
 
-Run with a real landmark socket and real OS mouse control:
+When you are ready for camera tracking, start the Java socket app:
 
 ```sh
 java -jar target/ghostmouse-0.1.0-SNAPSHOT.jar --source=socket --enable-robot
+```
+
+In another terminal, start the Python sidecar:
+
+```sh
+python3 -m venv .venv
+. .venv/bin/activate
+pip install -r requirements.txt
+python scripts/mediapipe_sidecar.py
 ```
 
 Run with real cursor movement but clicks disabled while calibrating:
@@ -68,6 +100,8 @@ Show all Java app options:
 java -jar target/ghostmouse-0.1.0-SNAPSHOT.jar --help
 ```
 
+For more detail, see [Setup Guide](docs/SETUP.md).
+
 ## macOS Launcher
 
 For local macOS use, the project includes command launchers:
@@ -86,7 +120,7 @@ The Java app expects one hand landmark frame per line on a TCP socket. The inclu
 ```sh
 python3 -m venv .venv
 . .venv/bin/activate
-pip install mediapipe opencv-python
+pip install -r requirements.txt
 python scripts/mediapipe_sidecar.py
 ```
 
@@ -140,15 +174,18 @@ jpackage \
 ## Project Structure
 
 ```text
-src/main/java/com/ghostmouse/app       App startup, config, and service loop
+docs/                                  Setup, architecture, and troubleshooting
+models/                                MediaPipe hand landmarker model
+scripts/                               Launch and MediaPipe helper scripts
+src/main/java/com/ghostmouse/app       Startup, config, and service loop
 src/main/java/com/ghostmouse/control   Mouse control and screen mapping
 src/main/java/com/ghostmouse/gesture   Gesture plugins and intent handling
 src/main/java/com/ghostmouse/math      Pointer smoothing and landmark math
 src/main/java/com/ghostmouse/ui        Swing window and landmark preview
 src/main/java/com/ghostmouse/vision    Demo and socket frame providers
-scripts/                               Launch and MediaPipe helper scripts
-models/                                MediaPipe hand landmarker model
 ```
+
+Read the [Architecture Notes](docs/ARCHITECTURE.md) for the main design boundaries.
 
 ## Development
 
@@ -171,9 +208,19 @@ Before opening a pull request, run:
 ./mvnw package
 ```
 
+Python sidecar syntax check:
+
+```sh
+python3 -m py_compile scripts/mediapipe_sidecar.py
+```
+
+Maintainer and contributor guidance lives in [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## Safety Notes
 
 Real mouse control can move and click your OS cursor. Start with `--source=demo` or `--disable-clicks` while tuning gestures, and keep a keyboard or trackpad available so you can stop the app quickly.
+
+If something does not behave correctly, see [Troubleshooting](docs/TROUBLESHOOTING.md).
 
 ## References
 

@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Setup guide
+    url: https://github.com/jameswantsfetish/GhostMouse/blob/main/docs/SETUP.md
+    about: Start here if you are installing GhostMouse for the first time.
+  - name: Troubleshooting
+    url: https://github.com/jameswantsfetish/GhostMouse/blob/main/docs/TROUBLESHOOTING.md
+    about: Common fixes for camera, socket, cursor, and gesture issues.
