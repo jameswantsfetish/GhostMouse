@@ -1,0 +1,29 @@
+# macOS
+.DS_Store
+*.app/
+
+# Java / Maven
+target/
+.mvn/cache/
+
+# Python sidecar
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.Python
+
+# Local packages and generated output
+dist/
+outputs/
+*.log
+.ghostmouse-*.pid
+
+# IDEs
+*.iml
+.idea/
+.vscode/
+
+# Local environment files
+.env
+.env.*
