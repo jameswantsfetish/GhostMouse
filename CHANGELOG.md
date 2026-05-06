@@ -11,3 +11,4 @@ All notable changes to GhostMouse will be documented in this file.
 - Added adaptive pointer smoothing and release-based click debouncing.
 - Added Python MediaPipe sidecar for webcam landmark streaming.
 - Added Maven build, unit tests, GitHub Actions CI, and project documentation.
+- Added explicit Windows setup guidance and cross-platform CI coverage.

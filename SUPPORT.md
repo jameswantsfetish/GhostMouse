@@ -3,6 +3,7 @@
 If you need help with GhostMouse, start with:
 
 - [Setup Guide](docs/SETUP.md)
+- [Windows Guide](docs/WINDOWS.md)
 - [Troubleshooting](docs/TROUBLESHOOTING.md)
 - [Architecture Notes](docs/ARCHITECTURE.md)
 

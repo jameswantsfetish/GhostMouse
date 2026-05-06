@@ -41,7 +41,7 @@ Start safely with demo landmarks, then move to the real webcam sidecar when you 
 - Maven through the included `./mvnw` wrapper
 - Python 3.10+ for the MediaPipe sidecar
 - Webcam access for real hand tracking
-- macOS, Windows, or Linux for demo mode
+- macOS, Windows, or Linux for the Java app and demo mode
 - macOS recommended for the included double-click launcher scripts
 - Accessibility permission for Java when real OS mouse control is enabled on macOS
 
@@ -101,6 +101,29 @@ java -jar target/ghostmouse-0.1.0-SNAPSHOT.jar --help
 ```
 
 For more detail, see [Setup Guide](docs/SETUP.md).
+
+## Windows Support
+
+GhostMouse is designed to run on Windows through the Java jar and Python sidecar. The included `.command`, `.sh`, `.app`, and native wrapper files are for macOS convenience only.
+
+On Windows, use PowerShell or Windows Terminal:
+
+```powershell
+.\mvnw test
+.\mvnw package
+java -jar target\ghostmouse-0.1.0-SNAPSHOT.jar --source=demo
+```
+
+For webcam tracking:
+
+```powershell
+py -3 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+python scripts\mediapipe_sidecar.py
+```
+
+See [Windows Guide](docs/WINDOWS.md) for the recommended setup path.
 
 ## macOS Launcher
 

@@ -4,6 +4,7 @@
 
 - Confirm you used `--enable-robot`.
 - On macOS, grant Accessibility permission to the terminal or Java app.
+- On Windows, use a normal unlocked desktop session. Java AWT Robot may not work correctly in some remote or restricted sessions.
 - Check whether you are in `--source=demo`; demo mode intentionally uses a no-op mouse controller unless `--enable-robot` is supplied.
 
 ## The Sidecar Says It Is Waiting For GhostMouse
@@ -21,6 +22,13 @@ python scripts/mediapipe_sidecar.py
 ```
 
 The default socket is `127.0.0.1:8765`.
+
+On Windows PowerShell, use backslashes in paths:
+
+```powershell
+java -jar target\ghostmouse-0.1.0-SNAPSHOT.jar --source=socket --enable-robot --disable-clicks
+python scripts\mediapipe_sidecar.py
+```
 
 ## The Webcam Does Not Open
 
